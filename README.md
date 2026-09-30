@@ -1,30 +1,26 @@
 # Device Access Guard AI
 
-A small, adaptable browser demo that presents clear warnings and uses a non-invasive sound alert when a possible unauthorized access attempt is detected.
+This browser demo detects reported access events, shows a warning overlay above every element in the current browser tab, and plays a four-second alert made locally with the Web Audio API.
 
-## Features
+## Important platform limitation
 
-- Clear, friendly warning messages instead of technical jargon.
-- Web Audio API alert tones generated locally; no audio file or upload is required.
-- Test-alert button so users can confirm their sound level.
-- Mute/unmute control and adjustable alert sensitivity.
-- Demo event simulator showing how an integration can report access attempts.
-- **Guided defense actions** to help users respond immediately.
-- Respects browser autoplay rules: the user must interact with the page before sound can play.
+A normal web page **cannot forcibly appear above other applications** or bypass the operating system. The in-page overlay is always above this page's content. For alerts while another app or browser tab is active, click **Enable desktop notifications** and allow notifications in the browser and operating system. Whether those notifications appear on top of other apps is controlled by the OS notification settings.
 
-> **Important:** This demo does not inspect devices or detect intrusions by itself. Connect it to trusted platform signals such as a login event, failed unlock, new device session, or OS security notification. Do not collect passwords, keystrokes, or private content.
+For a true always-on-top alert, package this UI as a trusted native desktop/mobile application and request the platform's notification or overlay permission explicitly. Never use an overlay to imitate system dialogs or collect passwords.
 
-## Run it
+## Sound
 
-Open `index.html` in a modern browser, or serve the folder locally:
+The warning sound contains four gentle pulses scheduled one second apart, lasting about four seconds total. Browsers require a user interaction before audio can play, so use **Play 4-second test alert** once. The user can mute it at any time.
+
+## Run
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit <http://localhost:8000>.
+Visit <http://localhost:8000>.
 
-## Integration example
+## Integration
 
 ```js
 window.deviceGuard.reportAccessAttempt({
@@ -33,15 +29,4 @@ window.deviceGuard.reportAccessAttempt({
 });
 ```
 
-The alert system is intentionally conservative: it informs the user and lets them decide what to do. It does not claim that an attempt is definitely malicious.
-
-## Defense Actions
-
-When an access attempt is detected, the system guides the user through immediate security steps:
-
-1. **Review Recent Activity** – Check login history and connected devices.
-2. **Change Password** – Secure your account with a strong, unique password.
-3. **Enable 2FA** – Add an extra layer of protection.
-4. **Disconnect Sessions** – Log out unauthorized devices.
-5. **Check Privacy Settings** – Review who has access to your data.
-6. **Contact Support** – Reach out if you need help.
+The demo does not read passwords, keystrokes, messages, or private files. Connect it only to trusted security signals.

@@ -12,114 +12,42 @@
     <section class="card" aria-labelledby="title">
       <div class="eyebrow">DEVICE ACCESS GUARD</div>
       <h1 id="title">Stay informed about access to your device.</h1>
-      <p class="intro">We'll give you a clear message and a short sound when a possible unfamiliar access attempt is reported. We'll also guide you through securing your account.</p>
+      <p class="intro">We'll show a clear warning and play a four-second sound when a possible unfamiliar access attempt is reported.</p>
 
-      <div id="status" class="status status-safe" role="status" aria-live="polite">
-        <span class="status-dot" aria-hidden="true"></span>
-        <span id="statusText">Monitoring is ready</span>
-      </div>
+      <div id="status" class="status status-safe" role="status" aria-live="polite"><span class="status-dot" aria-hidden="true"></span><span id="statusText">Monitoring is ready</span></div>
 
-      <!-- ALERT WARNING -->
       <div id="warning" class="warning" hidden role="alert" aria-labelledby="warningTitle">
         <div class="warning-icon" aria-hidden="true">!</div>
         <div>
           <h2 id="warningTitle">Please check this access</h2>
           <p id="warningMessage">We noticed an access attempt that may not be familiar to you.</p>
           <p id="warningSource" class="warning-source"></p>
-          <button id="defendButton" class="button button-primary">Start Defense Guide</button>
+          <div class="actions"><button id="defendButton" class="button button-primary">Start Defense Guide</button><button id="dismissButton" class="button button-quiet">This was me</button></div>
         </div>
       </div>
 
-      <!-- DEFENSE GUIDE -->
       <div id="defenseGuide" class="defense-guide" hidden role="region" aria-labelledby="defenseTitle">
-        <div class="defense-header">
-          <h2 id="defenseTitle">🛡️ Quick Defense Steps</h2>
-          <button id="closeDefenseButton" class="close-button" aria-label="Close defense guide">&times;</button>
-        </div>
+        <div class="defense-header"><h2 id="defenseTitle">🛡️ Quick Defense Steps</h2><button id="closeDefenseButton" class="close-button" aria-label="Close defense guide">&times;</button></div>
         <ol class="defense-steps">
-          <li class="defense-step">
-            <input type="checkbox" id="step1" class="step-checkbox">
-            <label for="step1">
-              <strong>Review Recent Activity</strong>
-              <p>Check your login history and connected devices. Do you recognize this access?</p>
-              <button class="link-button" onclick="openLink('account-activity')">View Activity</button>
-            </label>
-          </li>
-          <li class="defense-step">
-            <input type="checkbox" id="step2" class="step-checkbox">
-            <label for="step2">
-              <strong>Change Your Password</strong>
-              <p>Use a strong, unique password with uppercase, lowercase, numbers, and symbols.</p>
-              <button class="link-button" onclick="openLink('password-change')">Change Password</button>
-            </label>
-          </li>
-          <li class="defense-step">
-            <input type="checkbox" id="step3" class="step-checkbox">
-            <label for="step3">
-              <strong>Enable Two-Factor Authentication (2FA)</strong>
-              <p>Add an extra layer of protection: SMS, authenticator app, or security key.</p>
-              <button class="link-button" onclick="openLink('enable-2fa')">Set Up 2FA</button>
-            </label>
-          </li>
-          <li class="defense-step">
-            <input type="checkbox" id="step4" class="step-checkbox">
-            <label for="step4">
-              <strong>Disconnect Unauthorized Sessions</strong>
-              <p>Log out all sessions on devices you do not recognize.</p>
-              <button class="link-button" onclick="openLink('active-sessions')">View Sessions</button>
-            </label>
-          </li>
-          <li class="defense-step">
-            <input type="checkbox" id="step5" class="step-checkbox">
-            <label for="step5">
-              <strong>Check Privacy & Permissions</strong>
-              <p>Review connected apps and who has access to your data.</p>
-              <button class="link-button" onclick="openLink('privacy-settings')">Review Privacy</button>
-            </label>
-          </li>
-          <li class="defense-step">
-            <input type="checkbox" id="step6" class="step-checkbox">
-            <label for="step6">
-              <strong>Contact Support</strong>
-              <p>If you need help or suspect unauthorized activity, reach out to your service provider.</p>
-              <button class="link-button" onclick="openLink('contact-support')">Get Support</button>
-            </label>
-          </li>
+          <li class="defense-step"><input type="checkbox" id="step1"><label for="step1"><strong>Review Recent Activity</strong><p>Check your login history and connected devices.</p></label></li>
+          <li class="defense-step"><input type="checkbox" id="step2"><label for="step2"><strong>Change Your Password</strong><p>Use a strong, unique password.</p></label></li>
+          <li class="defense-step"><input type="checkbox" id="step3"><label for="step3"><strong>Enable Two-Factor Authentication</strong><p>Add an extra layer of protection.</p></label></li>
+          <li class="defense-step"><input type="checkbox" id="step4"><label for="step4"><strong>Disconnect Unknown Sessions</strong><p>Log out devices you do not recognize.</p></label></li>
         </ol>
-        <div class="defense-progress">
-          <div class="progress-label">Progress: <span id="progressText">0 / 6</span> steps completed</div>
-          <div class="progress-bar">
-            <div id="progressFill" class="progress-fill"></div>
-          </div>
-        </div>
-        <button id="completeButton" class="button button-primary" onclick="completeDefense()">Mark as Secure</button>
+        <div class="defense-progress">Progress: <span id="progressText">0 / 4</span><div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div></div>
+        <button id="completeButton" class="button button-primary">Mark as Secure</button>
       </div>
 
-      <!-- CONTROLS -->
-      <div class="controls" aria-label="Alert controls">
-        <button id="testButton" class="button button-secondary">Play test alert</button>
-        <button id="muteButton" class="button button-secondary" aria-pressed="false">Mute sound</button>
-        <label class="range-label" for="sensitivity">Sensitivity <output id="sensitivityValue">Medium</output></label>
-        <input id="sensitivity" type="range" min="1" max="3" value="2">
-      </div>
-
-      <details>
-        <summary>How does this work?</summary>
-        <p>This page waits for a trusted app or service to report an access event. It does not read passwords, messages, keystrokes, or private files. Sound is generated in your browser and can be muted at any time. When an attempt is detected, we guide you through proven security steps.</p>
-      </details>
-
+      <div class="controls" aria-label="Alert controls"><button id="testButton" class="button button-secondary">Play 4-second test alert</button><button id="notifyButton" class="button button-secondary">Enable desktop notifications</button><button id="muteButton" class="button button-secondary" aria-pressed="false">Mute sound</button></div>
+      <p class="privacy-note">The warning stays above this page. Desktop notifications may appear outside the browser after you grant permission.</p>
+      <details><summary>How does this work?</summary><p>This page waits for a trusted app or service to report an access event. It does not read passwords, messages, keystrokes, or private files. A browser page cannot forcibly draw over other applications; the optional desktop notification is controlled by your operating system.</p></details>
       <p class="demo-note">Demo mode: <button id="simulateButton" class="link-button">simulate an unfamiliar access attempt</button></p>
     </section>
   </main>
 
-  <!-- Info modal for defense steps -->
-  <dialog id="infoModal" class="modal">
-    <div class="modal-content">
-      <button class="close-button" onclick="document.getElementById('infoModal').close()" aria-label="Close">&times;</button>
-      <div id="infoBody"></div>
-    </div>
-  </dialog>
-
+  <div id="accessOverlay" class="access-overlay" hidden role="alertdialog" aria-modal="false" aria-labelledby="overlayTitle">
+    <div class="overlay-card"><div class="overlay-badge" aria-hidden="true">!</div><div><p class="overlay-label">DEVICE ACCESS GUARD</p><h2 id="overlayTitle">Please check this access</h2><p id="overlayMessage">An unfamiliar access attempt was reported.</p><div class="actions"><button id="overlayReviewButton" class="button button-primary">Review warning</button><button id="overlayCloseButton" class="button button-quiet">Dismiss overlay</button></div></div></div>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>
