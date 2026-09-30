@@ -1,0 +1,9 @@
+{
+  "name": "device-access-guard-ai",
+  "version": "1.0.0",
+  "description": "AI-powered device access guard with OTP verification and device checks.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
