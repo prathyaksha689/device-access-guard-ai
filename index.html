@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A clear warning and sound alert demo for possible unauthorized device access.">
+  <meta name="description" content="Device access warnings with safe phone and one-time-code verification guidance.">
   <title>Device Access Guard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -12,42 +12,52 @@
     <section class="card" aria-labelledby="title">
       <div class="eyebrow">DEVICE ACCESS GUARD</div>
       <h1 id="title">Stay informed about access to your device.</h1>
-      <p class="intro">We'll show a clear warning and play a four-second sound when a possible unfamiliar access attempt is reported.</p>
-
+      <p class="intro">We show a clear warning and play a four-second sound when a possible unfamiliar access attempt is reported.</p>
       <div id="status" class="status status-safe" role="status" aria-live="polite"><span class="status-dot" aria-hidden="true"></span><span id="statusText">Monitoring is ready</span></div>
 
       <div id="warning" class="warning" hidden role="alert" aria-labelledby="warningTitle">
-        <div class="warning-icon" aria-hidden="true">!</div>
-        <div>
-          <h2 id="warningTitle">Please check this access</h2>
-          <p id="warningMessage">We noticed an access attempt that may not be familiar to you.</p>
-          <p id="warningSource" class="warning-source"></p>
+        <div class="warning-icon" aria-hidden="true">!</div><div>
+          <h2 id="warningTitle">Please check this access</h2><p id="warningMessage">We noticed an access attempt that may not be familiar to you.</p><p id="warningSource" class="warning-source"></p>
           <div class="actions"><button id="defendButton" class="button button-primary">Start Defense Guide</button><button id="dismissButton" class="button button-quiet">This was me</button></div>
         </div>
       </div>
 
+      <section class="verification-panel" aria-labelledby="verificationTitle">
+        <h2 id="verificationTitle">🔐 Verify your phone safely</h2>
+        <p>Use this only with a trusted security service. We never store or send your phone number or one-time code in this demo.</p>
+        <form id="verificationForm" novalidate>
+          <label for="phoneNumber">Phone number</label>
+          <input id="phoneNumber" name="phoneNumber" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 555 123 4567" aria-describedby="phoneHelp phoneError">
+          <small id="phoneHelp">Include the country code, for example +1 or +44.</small>
+          <p id="phoneError" class="field-error" role="alert"></p>
+          <label for="otpCode">One-time code</label>
+          <input id="otpCode" name="otpCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit code" aria-describedby="otpHelp otpError">
+          <small id="otpHelp">Only enter a code you requested yourself. Never share it with anyone.</small>
+          <p id="otpError" class="field-error" role="alert"></p>
+          <button class="button button-secondary" type="submit">Check details locally</button>
+        </form>
+        <p id="verificationResult" class="verification-result" role="status" aria-live="polite"></p>
+      </section>
+
       <div id="defenseGuide" class="defense-guide" hidden role="region" aria-labelledby="defenseTitle">
         <div class="defense-header"><h2 id="defenseTitle">🛡️ Quick Defense Steps</h2><button id="closeDefenseButton" class="close-button" aria-label="Close defense guide">&times;</button></div>
         <ol class="defense-steps">
-          <li class="defense-step"><input type="checkbox" id="step1"><label for="step1"><strong>Review Recent Activity</strong><p>Check your login history and connected devices.</p></label></li>
-          <li class="defense-step"><input type="checkbox" id="step2"><label for="step2"><strong>Change Your Password</strong><p>Use a strong, unique password.</p></label></li>
-          <li class="defense-step"><input type="checkbox" id="step3"><label for="step3"><strong>Enable Two-Factor Authentication</strong><p>Add an extra layer of protection.</p></label></li>
-          <li class="defense-step"><input type="checkbox" id="step4"><label for="step4"><strong>Disconnect Unknown Sessions</strong><p>Log out devices you do not recognize.</p></label></li>
+          <li class="defense-step"><input type="checkbox" id="step1"><label for="step1"><strong>Review recent activity</strong><p>Check login history and connected devices.</p></label></li>
+          <li class="defense-step"><input type="checkbox" id="step2"><label for="step2"><strong>Change your password</strong><p>Use a strong, unique password.</p></label></li>
+          <li class="defense-step"><input type="checkbox" id="step3"><label for="step3"><strong>Enable two-factor authentication</strong><p>Add another layer of protection.</p></label></li>
+          <li class="defense-step"><input type="checkbox" id="step4"><label for="step4"><strong>Disconnect unknown sessions</strong><p>Log out devices you do not recognize.</p></label></li>
         </ol>
         <div class="defense-progress">Progress: <span id="progressText">0 / 4</span><div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div></div>
         <button id="completeButton" class="button button-primary">Mark as Secure</button>
       </div>
 
       <div class="controls" aria-label="Alert controls"><button id="testButton" class="button button-secondary">Play 4-second test alert</button><button id="notifyButton" class="button button-secondary">Enable desktop notifications</button><button id="muteButton" class="button button-secondary" aria-pressed="false">Mute sound</button></div>
-      <p class="privacy-note">The warning stays above this page. Desktop notifications may appear outside the browser after you grant permission.</p>
-      <details><summary>How does this work?</summary><p>This page waits for a trusted app or service to report an access event. It does not read passwords, messages, keystrokes, or private files. A browser page cannot forcibly draw over other applications; the optional desktop notification is controlled by your operating system.</p></details>
+      <p class="privacy-note">This demo validates format only. Real OTP verification must happen on a secure server through a trusted identity provider, with expiry and rate limits.</p>
+      <details><summary>How does this work?</summary><p>It waits for a trusted service to report an access event. It does not read passwords, messages, keystrokes, phone contacts, or private files. A browser page cannot force itself above other applications; desktop notifications require your permission.</p></details>
       <p class="demo-note">Demo mode: <button id="simulateButton" class="link-button">simulate an unfamiliar access attempt</button></p>
     </section>
   </main>
-
-  <div id="accessOverlay" class="access-overlay" hidden role="alertdialog" aria-modal="false" aria-labelledby="overlayTitle">
-    <div class="overlay-card"><div class="overlay-badge" aria-hidden="true">!</div><div><p class="overlay-label">DEVICE ACCESS GUARD</p><h2 id="overlayTitle">Please check this access</h2><p id="overlayMessage">An unfamiliar access attempt was reported.</p><div class="actions"><button id="overlayReviewButton" class="button button-primary">Review warning</button><button id="overlayCloseButton" class="button button-quiet">Dismiss overlay</button></div></div></div>
-  </div>
+  <div id="accessOverlay" class="access-overlay" hidden role="alertdialog" aria-modal="false" aria-labelledby="overlayTitle"><div class="overlay-card"><div class="overlay-badge" aria-hidden="true">!</div><div><p class="overlay-label">DEVICE ACCESS GUARD</p><h2 id="overlayTitle">Please check this access</h2><p id="overlayMessage">An unfamiliar access attempt was reported.</p><div class="actions"><button id="overlayReviewButton" class="button button-primary">Review warning</button><button id="overlayCloseButton" class="button button-quiet">Dismiss overlay</button></div></div></div></div>
   <script src="app.js"></script>
 </body>
 </html>
